@@ -12,7 +12,7 @@ jobs:
   deb:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - name: Dépendances de build
         run: sudo apt-get update && sudo apt-get install -y python3-pil dpkg-dev
       - name: Construire le .deb
@@ -21,7 +21,7 @@ jobs:
           DEB=$(packaging/build-deb.sh dist)
           echo "DEB=$DEB" >> "$GITHUB_ENV"
           dpkg-deb -I "$DEB"
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v4
         with:
           name: deb
           path: dist/*.deb

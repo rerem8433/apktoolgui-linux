@@ -10,7 +10,7 @@ Portage Linux : **ParadoxXx Squad**.
 ![](screenshot.png)
 
 ## Fonctions
-- Décompiler / compiler avec **Apktool 3.0.2** ou **APKEditor 1.4.7** (projet APKEditor détecté tout seul)
+- Décompiler / compiler avec **Apktool 3.0.3** ou **APKEditor 1.4.9** (projet APKEditor détecté tout seul)
 - Fusion XAPK / APKS / APKM / ZIP → APK unique (APKEditor), décompilation directe des split APK
 - Signature **apksigner** (clé pem/pk8 ou keystore JKS, schémas v1→v4), **zipalign** (+ `-p`, Zopfli, vérification)
 - Chaîne compiler → zipalign → signer → installer ADB
@@ -19,14 +19,14 @@ Portage Linux : **ParadoxXx Squad**.
 - Smali / Baksmali, installation et nettoyage des frameworks
 - Infos APK (aapt2) : icône, versions, SDK, ABI, langues, permissions, dump complet, certificat
 - Onglet ADB : appareils, connexion Wi-Fi `IP:port`, installation (`-i com.android.vending`, `--abi`)
-- Glisser-déposer partout, journal coloré, thème sombre/clair, FR/EN
+- Glisser-déposer partout, journal coloré, thème sombre/clair, interface en français, anglais, espagnol et russe
 - **Clic droit dans Nemo** (Linux Mint) : décompiler, compiler un dossier, signer, aligner, fusionner, infos, baksmali, installer
 - Ligne de commande : `apktoolgui-linux --decompile app.apk` (`--compile`, `--sign`, `--align`, `--merge`, `--info`, `--baksmali`, `--install`)
 
 ## Installation (Linux Mint 21/22, Ubuntu 22.04+)
 Télécharge le `.deb` dans les [Releases](https://github.com/rerem8433/apktoolgui-linux/releases/latest), puis :
 ```
-sudo apt install ./apktoolgui-linux_1.0.1_amd64.deb
+sudo apt install ./apktoolgui-linux_1.0.2_amd64.deb
 ```
 Dépendances tirées automatiquement : `python3-pyqt6`, Java (`default-jre-headless`), `zipalign`, `adb`.
 Optionnel : *Paramètres → Outils* télécharge les derniers platform-tools / build-tools officiels Google dans `~/.local/share/apktoolgui-linux/sdk`.

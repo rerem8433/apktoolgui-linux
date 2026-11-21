@@ -310,6 +310,7 @@ class MainWindow(QMainWindow):
         self.tabs.addTab(self._scroll(self._tab_baksmali()), "Baksmali")
         self.tabs.addTab(self._tab_adb(), "ADB")
         self.tabs.tabBar().setUsesScrollButtons(True)
+        QTimer.singleShot(0, self._fit_tabs)
 
         self.log_view = QPlainTextEdit()
         self.log_view.setObjectName("log")
@@ -332,6 +333,21 @@ class MainWindow(QMainWindow):
         lay.setContentsMargins(4, 4, 4, 0)
         lay.addWidget(self.splitter)
         self.setCentralWidget(w)
+
+    def ask(self, text):
+        """Question Oui/Non avec boutons traduits."""
+        box = QMessageBox(QMessageBox.Icon.Question, C.APP_NAME, text, parent=self)
+        yes = box.addButton(tr("Yes"), QMessageBox.ButtonRole.YesRole)
+        box.addButton(tr("No"), QMessageBox.ButtonRole.NoRole)
+        box.exec()
+        return box.clickedButton() is yes
+
+    def _fit_tabs(self):
+        """Largeur mini pour que les 9 onglets restent visibles (langues longues comme le russe)."""
+        need = self.tabs.tabBar().sizeHint().width() + 24
+        self.setMinimumWidth(max(560, need))
+        if self.width() < need:
+            self.resize(need, self.height())
 
     def _scroll(self, w):
         sa = QScrollArea()
@@ -372,7 +388,7 @@ class MainWindow(QMainWindow):
         self.bind_line(le, key)
         le.setup_drop(kind, lambda ps: le.setText(ps[0]))
         b = DropButton(btn_text)
-        b.setFixedWidth(130)
+        b.setMinimumWidth(130)
         b.setup_drop(kind, lambda ps: (le.setText(ps[0]), action()))
         b.clicked.connect(action)
         self.act(b)
@@ -722,7 +738,7 @@ class MainWindow(QMainWindow):
             h.addWidget(le)
             h.addWidget(self.browse_btn(le, mode, filt))
             b = self.act(QPushButton(btn))
-            b.setFixedWidth(110)
+            b.setMinimumWidth(110)
             b.clicked.connect(lambda _=False, le=le, fn=fn, kind=kind:
                               self.run_op(lambda c: fn(c, le.text()), need=le.text(), kind="dir" if kind == "dir" else "file"))
             h.addWidget(b)
@@ -935,7 +951,7 @@ class MainWindow(QMainWindow):
     def prompt_cancel(self):
         if not self.busy():
             return
-        if QMessageBox.question(self, C.APP_NAME, tr("Do you want to cancel the current process?")) == QMessageBox.StandardButton.Yes:
+        if self.ask(tr("Do you want to cancel the current process?")):
             self.worker.ctx.cancel()
 
     # ================================================================== actions principales
@@ -1177,15 +1193,16 @@ class MainWindow(QMainWindow):
             apply_theme(QApplication.instance(), self.cfg.get("Theme", 1) == 1)
 
     def about(self):
+        link = "<a href='https://github.com/AndnixSH/APKToolGUI'>APKToolGUI</a>"
+        tools = "Apktool %s (iBotPeaches), APKEditor (REAndroid), smali/baksmali, apksigner, zipalign, adb (AOSP)" % (
+            core.apktool_version(self.cfg) or "?")
         QMessageBox.about(self, tr("About"), (
-            "<h3>%s v%s</h3>"
-            "<p>%s</p>"
-            "<p>Fork Linux (Python/PyQt6) d'<a href='https://github.com/AndnixSH/APKToolGUI'>APKToolGUI</a> "
-            "%s par AndnixSH (domaine public / Unlicense).</p>"
-            "<p>Portage Linux : <b>ParadoxXx Squad</b></p>"
-            "<p>Outils : Apktool (iBotPeaches), APKEditor (REAndroid), smali/baksmali, apksigner, zipalign, adb (AOSP).</p>"
-        ) % (C.APP_NAME, C.APP_VERSION, tr("GUI for apktool, APKEditor, apksigner, zipalign, baksmali and adb."),
-             C.UPSTREAM_VERSION))
+            "<h3>%s v%s</h3><p>%s</p><p>%s</p><p>%s</p><p>%s</p>"
+        ) % (C.APP_NAME, C.APP_VERSION,
+             tr("GUI for apktool, APKEditor, apksigner, zipalign, baksmali and adb."),
+             tr("Linux fork (Python/PyQt6) of {0} {1} by AndnixSH (public domain / Unlicense).").format(link, C.UPSTREAM_VERSION),
+             tr("Linux port: {0}").format("<b>ParadoxXx Squad</b>"),
+             tr("Tools: {0}").format(tools)))
 
     # ================================================================== DnD fenêtre
     def dragEnterEvent(self, e):
@@ -1213,7 +1230,7 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, e):
         if self.busy():
-            if QMessageBox.question(self, C.APP_NAME, tr("A process is running. Quit anyway?")) != QMessageBox.StandardButton.Yes:
+            if not self.ask(tr("A process is running. Quit anyway?")):
                 e.ignore()
                 return
             self.worker.ctx.cancel()
@@ -1223,6 +1240,22 @@ class MainWindow(QMainWindow):
         self.cfg.save()
         C.cleanup_session_temp()
         e.accept()
+
+
+def _install_qt_translator(app):
+    """Boutons/dialogues standard de Qt dans la langue choisie (paquet qt6-translations-l10n)."""
+    from PyQt6.QtCore import QTranslator, QLibraryInfo
+    from .i18n import current
+    lang = current()
+    if lang == "en":
+        return
+    paths = [QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath), "/usr/share/qt6/translations"]
+    tr_ = QTranslator(app)
+    for p in paths:
+        if tr_.load("qtbase_" + lang, p):
+            app.installTranslator(tr_)
+            app._qt_translator = tr_
+            return
 
 
 def main(argv=None):
@@ -1247,6 +1280,7 @@ def main(argv=None):
     QApplication.setApplicationName(C.APP_NAME)
     QApplication.setDesktopFileName(C.APP_ID)
     app = QApplication(sys.argv[:1])
+    _install_qt_translator(app)
     apply_theme(app, cfg.get("Theme", 1) == 1)
     w = MainWindow(cfg, cli)
     w.show()

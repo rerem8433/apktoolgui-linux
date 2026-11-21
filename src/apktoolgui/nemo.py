@@ -30,11 +30,13 @@ SYSTEM_NEMO_DIR = "/usr/share/nemo/actions"
 
 
 def nemo_action_text(label, exts, arg, exe):
-    from .i18n import FR
-    lines = ["[Nemo Action]", "Name=%s" % label, "Name[fr]=%s" % FR.get(label, label),
-             "Comment=%s" % label, "Comment[fr]=%s" % FR.get(label, label),
-             "Exec=%s --%s %%F" % (exe, arg), "Icon-Name=%s" % C.APP_ID, "Selection=s",
-             "Extensions=dir;" if exts is None else "Extensions=%s;" % exts]
+    from .i18n import TABLES
+    lines = ["[Nemo Action]", "Name=%s" % label]
+    lines += ["Name[%s]=%s" % (lg, tb.get(label, label)) for lg, tb in TABLES.items()]
+    lines.append("Comment=%s" % label)
+    lines += ["Comment[%s]=%s" % (lg, tb.get(label, label)) for lg, tb in TABLES.items()]
+    lines += ["Exec=%s --%s %%F" % (exe, arg), "Icon-Name=%s" % C.APP_ID, "Selection=s",
+              "Extensions=dir;" if exts is None else "Extensions=%s;" % exts]
     return "\n".join(lines) + "\n"
 
 

@@ -135,6 +135,8 @@ class SettingsDialog(QDialog):
         tabs.addTab(self._tools(), tr("Tools"))
         tabs.addTab(self._integration(), tr("Context menu"))
         bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        bb.button(QDialogButtonBox.StandardButton.Ok).setText(tr("OK"))
+        bb.button(QDialogButtonBox.StandardButton.Cancel).setText(tr("Cancel"))
         bb.accepted.connect(self._ok)
         bb.rejected.connect(self.reject)
         v = QVBoxLayout(self)

@@ -3,6 +3,23 @@
 Toutes les modifications notables d'**APK Tool GUI Linux** sont listées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versions [SemVer](https://semver.org/lang/fr/).
 
+## [1.0.2] - 2026-11-21
+
+### Ajouté
+- Interface en **espagnol** et en **russe**, en plus du français et de l'anglais (choix dans *Paramètres → Langue*, ou langue du système par défaut).
+- Actions du clic droit Nemo et raccourci du menu traduits dans les 4 langues.
+- Boutons standard (OK/Annuler, Oui/Non) traduits ; textes des dialogues Qt traduits si le paquet `qt6-translations-l10n` est installé (recommandé par le .deb).
+- La boîte « À propos » est traduite et affiche la version d'Apktool intégrée.
+
+### Modifié
+- **Apktool 3.0.2 → 3.0.3** : correction des erreurs « android:* not found », valeurs de flags vides acceptées, pool de chaînes optimisé. Options en ligne de commande inchangées.
+- **APKEditor 1.4.7 → 1.4.9** : correction d'un bug de fusion des split APK, gestion des registres « wide » en smali, meilleures performances.
+- La fenêtre s'élargit si besoin pour que les 9 onglets restent visibles (russe).
+
+### Corrigé
+- La ligne « Picked up _JAVA_OPTIONS… » s'affichait à la place de la version d'APKEditor quand la variable `_JAVA_OPTIONS` est définie (courant sous Linux pour le lissage des polices Java). Ces lignes sont maintenant filtrées partout.
+- Boutons d'action tronqués quand le texte est long (onglet Baksmali en russe).
+
 ## [1.0.1] - 2026-10-28
 
 ### Corrigé
@@ -38,5 +55,6 @@ Première version : portage Linux natif (Python 3 + PyQt6) d'[APKToolGUI](https:
 - Téléchargement optionnel des platform-tools / build-tools officiels Google depuis les Paramètres.
 - Interface FR/EN, thème sombre/clair, glisser-déposer partout, journal coloré.
 
+[1.0.2]: https://github.com/rerem8433/apktoolgui-linux/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/rerem8433/apktoolgui-linux/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/rerem8433/apktoolgui-linux/releases/tag/v1.0.0

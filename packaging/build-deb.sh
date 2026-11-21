@@ -40,8 +40,12 @@ Type=Application
 Name=APK Tool GUI Linux
 GenericName=APK decompiler / compiler
 GenericName[fr]=Décompilateur / compilateur APK
+GenericName[es]=Descompilador / compilador APK
+GenericName[ru]=Декомпилятор / сборщик APK
 Comment=GUI for apktool, APKEditor, apksigner, zipalign, baksmali and adb
 Comment[fr]=Interface pour apktool, APKEditor, apksigner, zipalign, baksmali et adb
+Comment[es]=Interfaz para apktool, APKEditor, apksigner, zipalign, baksmali y adb
+Comment[ru]=Интерфейс для apktool, APKEditor, apksigner, zipalign, baksmali и adb
 Exec=$PKG %f
 Icon=$PKG
 Terminal=false
@@ -71,7 +75,7 @@ Section: devel
 Priority: optional
 Architecture: amd64
 Depends: python3 (>= 3.8), python3-pyqt6, python3-pyqt6.qtsvg, qt6-image-formats-plugins, default-jre-headless | java11-runtime-headless | java17-runtime-headless | java21-runtime-headless, zipalign, adb
-Recommends: nemo
+Recommends: nemo, qt6-translations-l10n
 Installed-Size: $SIZE
 Maintainer: ParadoxXx Squad <jaylavet@gmail.com>
 Homepage: https://github.com/rerem8433/apktoolgui-linux

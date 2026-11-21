@@ -99,7 +99,8 @@ def simple_output(cmd, timeout=60):
     try:
         r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                            text=True, errors="replace", timeout=timeout, env=env)
-        return r.returncode, r.stdout
+        out = "\n".join(l for l in r.stdout.splitlines() if not l.startswith("Picked up "))
+        return r.returncode, out
     except (OSError, subprocess.TimeoutExpired) as e:
         return -1, str(e)
 
@@ -193,7 +194,7 @@ class Ctx:
                                      env=env, bufsize=1)
         for line in self.proc.stdout:
             line = line.rstrip("\r\n")
-            if not line.strip() or line.startswith("Picked up JAVA_TOOL_OPTIONS"):
+            if not line.strip() or line.startswith("Picked up "):
                 continue
             if capture:
                 out_lines.append(line)

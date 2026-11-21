@@ -6,7 +6,7 @@ import tempfile
 
 APP_ID = "apktoolgui-linux"
 APP_NAME = "APK Tool GUI Linux"
-APP_VERSION = "1.0.1"
+APP_VERSION = "1.0.2"
 UPSTREAM_VERSION = "3.4.0.0"
 
 XDG_CONFIG = os.environ.get("XDG_CONFIG_HOME", os.path.expanduser("~/.config"))

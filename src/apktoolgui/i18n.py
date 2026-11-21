@@ -1,8 +1,8 @@
-"""Traductions. Les clés sont en anglais (comme Language.resx d'origine) ; FR complet."""
+"""Traductions. Les clés sont en anglais (comme Language.resx d'origine) ; FR, ES et RU complets."""
 import locale
 import os
 
-LANGUAGES = {"Auto": "Auto", "en": "English", "fr": "Français"}
+LANGUAGES = {"Auto": "Auto", "en": "English", "fr": "Français", "es": "Español", "ru": "Русский"}
 _lang = "en"
 
 FR = {
@@ -264,6 +264,13 @@ FR = {
     "{0} not found: sudo apt install {1}": "{0} introuvable : sudo apt install {1}",
     "Already installed system-wide by the .deb package (you can hide actions in Nemo > Edit > Preferences > Plugins).":
         "Déjà installé pour tout le système par le paquet .deb (tu peux masquer des actions dans Nemo > Édition > Préférences > Greffons).",
+    'Linux fork (Python/PyQt6) of {0} {1} by AndnixSH (public domain / Unlicense).': 'Fork Linux (Python/PyQt6) de {0} {1} par AndnixSH (domaine public / Unlicense).',
+    'Linux port: {0}': 'Portage Linux : {0}',
+    'Tools: {0}': 'Outils : {0}',
+    'Yes': 'Oui',
+    'No': 'Non',
+    'OK': 'OK',
+    'Cancel': 'Annuler',
     # actions Nemo
     "Decompile with APK Tool GUI": "Décompiler avec APK Tool GUI",
     "Compile with APK Tool GUI": "Compiler avec APK Tool GUI",
@@ -275,7 +282,10 @@ FR = {
     "Install with ADB (APK Tool GUI)": "Installer via ADB (APK Tool GUI)",
 }
 
-TABLES = {"fr": FR}
+from .lang_es import ES  # noqa: E402
+from .lang_ru import RU  # noqa: E402
+
+TABLES = {"fr": FR, "es": ES, "ru": RU}
 
 
 def set_language(code):
@@ -285,6 +295,10 @@ def set_language(code):
             or os.environ.get("LANG") or (locale.getlocale()[0] or "")
         code = (loc or "en")[:2].lower()
     _lang = code if code in TABLES else "en"
+
+
+def current():
+    return _lang
 
 
 def tr(s):
