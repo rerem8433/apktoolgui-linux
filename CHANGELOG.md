@@ -15,6 +15,7 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), ver
 - **Apktool 3.0.2 → 3.0.3** : correction des erreurs « android:* not found », valeurs de flags vides acceptées, pool de chaînes optimisé. Options en ligne de commande inchangées.
 - **APKEditor 1.4.7 → 1.4.9** : correction d'un bug de fusion des split APK, gestion des registres « wide » en smali, meilleures performances.
 - La fenêtre s'élargit si besoin pour que les 9 onglets restent visibles (russe).
+- Build GitHub Actions : `actions/checkout` et `actions/upload-artifact` passent en v7 (Node.js 24), ce qui supprime l'avertissement de dépréciation de Node.js 20.
 
 ### Corrigé
 - La ligne « Picked up _JAVA_OPTIONS… » s'affichait à la place de la version d'APKEditor quand la variable `_JAVA_OPTIONS` est définie (courant sous Linux pour le lissage des polices Java). Ces lignes sont maintenant filtrées partout.
