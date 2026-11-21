@@ -65,7 +65,7 @@ for key, label, exts, arg in s.NEMO_ACTIONS:
         f.write(s.nemo_action_text(label, exts, arg, sys.argv[2]))
 PY
 
-cp "$ROOT/README.md" "$ROOT/LICENSE" "$ROOT/CHANGELOG.md" "$B/usr/share/doc/$PKG/"
+cp "$ROOT"/README*.md "$ROOT"/CHANGELOG*.md "$ROOT/LICENSE" "$B/usr/share/doc/$PKG/"
 
 SIZE=$(du -sk "$B" | cut -f1)
 cat > "$B/DEBIAN/control" <<EOF

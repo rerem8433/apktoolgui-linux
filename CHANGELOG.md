@@ -1,61 +1,65 @@
 # Changelog
 
-Toutes les modifications notables d'**APK Tool GUI Linux** sont listées ici.
-Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versions [SemVer](https://semver.org/lang/fr/).
+**English** | [Français](CHANGELOG.fr.md) | [Español](CHANGELOG.es.md) | [Русский](CHANGELOG.ru.md)
+
+All notable changes to **APK Tool GUI Linux** are listed here.
+Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning follows [SemVer](https://semver.org/).
 
 ## [1.0.2] - 2026-11-21
 
-### Ajouté
-- Interface en **espagnol** et en **russe**, en plus du français et de l'anglais (choix dans *Paramètres → Langue*, ou langue du système par défaut).
-- Actions du clic droit Nemo et raccourci du menu traduits dans les 4 langues.
-- Boutons standard (OK/Annuler, Oui/Non) traduits ; textes des dialogues Qt traduits si le paquet `qt6-translations-l10n` est installé (recommandé par le .deb).
-- La boîte « À propos » est traduite et affiche la version d'Apktool intégrée.
+### Added
+- **Spanish** and **Russian** interface, in addition to English and French (choose in *Settings → Language*, system language by default).
+- Nemo right-click actions and the menu shortcut translated into all 4 languages.
+- Standard buttons (OK/Cancel, Yes/No) translated; standard Qt dialogs translated when the `qt6-translations-l10n` package is installed (recommended by the .deb).
+- The About box is translated and shows the bundled Apktool version.
+- README and CHANGELOG available in English, French, Spanish and Russian.
 
-### Modifié
-- **Apktool 3.0.2 → 3.0.3** : correction des erreurs « android:* not found », valeurs de flags vides acceptées, pool de chaînes optimisé. Options en ligne de commande inchangées.
-- **APKEditor 1.4.7 → 1.4.9** : correction d'un bug de fusion des split APK, gestion des registres « wide » en smali, meilleures performances.
-- La fenêtre s'élargit si besoin pour que les 9 onglets restent visibles (russe).
-- Build GitHub Actions : `actions/checkout` et `actions/upload-artifact` passent en v7 (Node.js 24), ce qui supprime l'avertissement de dépréciation de Node.js 20.
+### Changed
+- **Apktool 3.0.2 → 3.0.3**: fixes "android:* not found" errors, accepts empty flag values, optimized string pool. Command-line options unchanged.
+- **APKEditor 1.4.7 → 1.4.9**: fixes a split APK merging bug, smali wide register handling, better performance.
+- The window widens when needed so all 9 tabs stay visible (Russian).
+- GitHub Actions build: `actions/checkout` and `actions/upload-artifact` moved to v7 (Node.js 24), removing the Node.js 20 deprecation warning.
 
-### Corrigé
-- La ligne « Picked up _JAVA_OPTIONS… » s'affichait à la place de la version d'APKEditor quand la variable `_JAVA_OPTIONS` est définie (courant sous Linux pour le lissage des polices Java). Ces lignes sont maintenant filtrées partout.
-- Boutons d'action tronqués quand le texte est long (onglet Baksmali en russe).
+### Fixed
+- The "Picked up _JAVA_OPTIONS…" line was shown instead of the APKEditor version when the `_JAVA_OPTIONS` variable is set (common on Linux for Java font antialiasing). These lines are now filtered everywhere.
+- Action buttons cut off when the text is long (Baksmali tab in Russian).
 
 ## [1.0.1] - 2026-10-28
 
-### Corrigé
-- **Icône absente dans l'onglet Infos APK** pour les applis récentes (ex. AnyDesk) qui déclarent une icône adaptative XML (`mipmap-anydpi-v26`) avec des noms de ressources raccourcis ou obfusqués.
+### Fixed
+- **Missing icon in the APK Info tab** for recent apps (e.g. AnyDesk) that declare an XML adaptive icon (`mipmap-anydpi-v26`) with shortened or obfuscated resource names.
 
-### Ajouté
-- Nouveau moteur d'extraction d'icône (`icon.py`) basé sur les ID de ressources (`aapt2 dump resources` / `dump xmltree`) :
-  - récupère le PNG/WebP d'origine en plus haute densité caché derrière l'icône adaptative ;
-  - sinon, rendu de l'icône adaptative : fond, premier plan, VectorDrawable (groupes, transformations, clip-path), `inset`, `layer-list`, `bitmap`, `shape`, dégradés linéaires/radiaux, masque à coins arrondis ;
-  - lecture de l'icône déclarée dans l'AndroidManifest en dernier recours ;
-  - fonctionne aussi quand les noms d'attributs et de ressources sont obfusqués (R8, AndResGuard, `--shorten-resource-paths`).
-- Conversion WebP → PNG de secours via Pillow si le plugin WebP de Qt est absent.
+### Added
+- New icon extraction engine (`icon.py`) based on resource IDs (`aapt2 dump resources` / `dump xmltree`):
+  - picks the original highest-density PNG/WebP hidden behind the adaptive icon;
+  - otherwise renders the adaptive icon: background, foreground, VectorDrawable (groups, transforms, clip-path), `inset`, `layer-list`, `bitmap`, `shape`, linear/radial gradients, rounded mask;
+  - falls back to the icon declared in the AndroidManifest;
+  - also works when attribute and resource names are obfuscated (R8, AndResGuard, `--shorten-resource-paths`).
+- WebP → PNG fallback conversion via Pillow when Qt's WebP plugin is missing.
 
-### Modifié
-- Nouvelles dépendances du paquet : `python3-pyqt6.qtsvg`, `qt6-image-formats-plugins`.
+### Changed
+- New package dependencies: `python3-pyqt6.qtsvg`, `qt6-image-formats-plugins`.
 
-## [1.0.0] - 2026-10-19
+## 1.0.0 - 2026-10-19
 
-Première version : portage Linux natif (Python 3 + PyQt6) d'[APKToolGUI](https://github.com/AndnixSH/APKToolGUI) 3.4.0.0 d'AndnixSH.
+*Not published on GitHub (the repository was created with 1.0.1).*
 
-### Ajouté
-- Les 9 onglets de l'original : Principal, Infos APK, Décodage, Build, Signer, Zipalign, Framework, Baksmali, ADB.
-- Outils intégrés : Apktool 3.0.2, APKEditor 1.4.7, apksigner, smali/baksmali, aapt2 Linux.
-- Décompilation/compilation Apktool ou APKEditor (projet APKEditor détecté automatiquement).
-- Fusion XAPK/APKS/APKM/ZIP et décompilation directe des split APK.
-- Chaîne compiler → zipalign → signer → installer ADB ; APK non signé avec la signature d'origine.
-- Correctifs Apktool automatiques (manifest, `sparseResources`, `APKTOOL_DUMMY`).
-- Signature par clé pem/pk8 ou keystore JKS, schémas v1 à v4 ; mots de passe transmis par variable d'environnement.
-- Options adaptées à Apktool 3 (`-a`, `--no-assets`, `--only-manifest`, `--debuggable`, tag de framework).
-- Onglet ADB : liste des appareils, connexion Wi-Fi `IP:port`, installation (`-i com.android.vending`, `--abi`).
-- Actions de clic droit dans Nemo (Linux Mint) installées pour tout le système.
-- Ligne de commande : `--decompile`, `--compile`, `--sign`, `--align`, `--merge`, `--info`, `--baksmali`, `--install`.
-- Téléchargement optionnel des platform-tools / build-tools officiels Google depuis les Paramètres.
-- Interface FR/EN, thème sombre/clair, glisser-déposer partout, journal coloré.
+First release: native Linux port (Python 3 + PyQt6) of [APKToolGUI](https://github.com/AndnixSH/APKToolGUI) 3.4.0.0 by AndnixSH.
+
+### Added
+- The 9 tabs of the original: Main, APK Info, Decode, Build, Sign, Zip align, Framework, Baksmali, ADB.
+- Bundled tools: Apktool 3.0.2, APKEditor 1.4.7, apksigner, smali/baksmali, Linux aapt2.
+- Decompile/compile with Apktool or APKEditor (APKEditor projects detected automatically).
+- Merge XAPK/APKS/APKM/ZIP and decompile split APKs directly.
+- Compile → zipalign → sign → install over ADB chain; unsigned APK with the original signature.
+- Automatic Apktool fixes (manifest, `sparseResources`, `APKTOOL_DUMMY`).
+- Signing with pem/pk8 key or JKS keystore, schemes v1 to v4; passwords passed through environment variables.
+- Options adapted to Apktool 3 (`-a`, `--no-assets`, `--only-manifest`, `--debuggable`, framework tag).
+- ADB tab: device list, Wi-Fi connection `IP:port`, install (`-i com.android.vending`, `--abi`).
+- Nemo right-click actions (Linux Mint) installed system-wide.
+- Command line: `--decompile`, `--compile`, `--sign`, `--align`, `--merge`, `--info`, `--baksmali`, `--install`.
+- Optional download of the official Google platform-tools / build-tools from Settings.
+- English and French interface, dark/light theme, drag & drop everywhere, colored log.
 
 [1.0.2]: https://github.com/rerem8433/apktoolgui-linux/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/rerem8433/apktoolgui-linux/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/rerem8433/apktoolgui-linux/releases/tag/v1.0.0
+[1.0.1]: https://github.com/rerem8433/apktoolgui-linux/releases/tag/v1.0.1
